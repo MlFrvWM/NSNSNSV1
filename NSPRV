@@ -960,7 +960,7 @@ local petDropdown = pets:AddDropdown("Select Pet", function(text)
     selectedPet = text
     print("Selected pet: " .. text)
 end)
- 
+
 petDropdown:Add("Neon Guardian")
 petDropdown:Add("Blue Birdie")
 petDropdown:Add("Blue Bunny")
@@ -1645,7 +1645,123 @@ folder1:AddButton("Destroy Ad Teleport", function()
             end)
         end)
  
+ 
 local folder2 = Main:AddFolder("Misc 2")
+
+folder2:AddButton("Remove Textures", function()
+    for _, v in pairs(game:GetDescendants()) do
+        if v:IsA("Decal") or v:IsA("Texture") then
+            v.Transparency = 1
+        end
+    end
+ 
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "Performance",
+        Text = "Textures removed!",
+        Duration = 5
+    })
+end)
+ 
+folder2:AddButton("Reduce Graphics", function()
+    settings().Rendering.QualityLevel = 1
+ 
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "Performance",
+        Text = "Graphics reduced!",
+        Duration = 5
+    })
+end)
+ 
+folder2:AddButton("Disable Effects", function()
+    for _, v in pairs(game:GetDescendants()) do
+        if v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Fire") or v:IsA("Sparkles") then
+            v.Enabled = false
+        end
+    end
+ 
+    local lighting = game:GetService("Lighting")
+    for _, v in pairs(lighting:GetChildren()) do
+        if v:IsA("BlurEffect") or v:IsA("SunRaysEffect") or v:IsA("ColorCorrectionEffect") or v:IsA("BloomEffect") or v:IsA("DepthOfFieldEffect") then
+            v.Enabled = false
+        end
+    end
+ 
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "Performance",
+        Text = "Effects disabled!",
+        Duration = 5
+    })
+end)
+ 
+folder2:AddButton("Simplify Materials", function()
+    for _, v in pairs(game:GetDescendants()) do
+        if v:IsA("BasePart") and not v:IsA("MeshPart") then
+            v.Material = Enum.Material.SmoothPlastic
+            if v.Parent and (v.Parent:FindFirstChild("Humanoid") or v.Parent.Parent:FindFirstChild("Humanoid")) then
+            else
+                v.Reflectance = 0
+            end
+        end
+    end
+ 
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "Performance",
+        Text = "Materials simplified!",
+        Duration = 5
+    })
+end)
+ 
+folder2:AddButton("Remove Fog", function()
+    local lighting = game:GetService("Lighting")
+    lighting.FogEnd = 9e9
+ 
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "Performance",
+        Text = "Fog removed!",
+        Duration = 5
+    })
+end)
+ 
+folder2:AddButton("Full Optimization", function()
+    for _, v in pairs(game:GetDescendants()) do
+        if v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Fire") or v:IsA("Sparkles") then
+            v.Enabled = false
+        end
+    end
+ 
+    local lighting = game:GetService("Lighting")
+    lighting.GlobalShadows = false
+    lighting.FogEnd = 9e9
+    lighting.Brightness = 0
+ 
+    settings().Rendering.QualityLevel = 1
+ 
+    for _, v in pairs(game:GetDescendants()) do
+        if v:IsA("Decal") or v:IsA("Texture") then
+            v.Transparency = 1
+        elseif v:IsA("BasePart") and not v:IsA("MeshPart") then
+            v.Material = Enum.Material.SmoothPlastic
+            if v.Parent and (v.Parent:FindFirstChild("Humanoid") or v.Parent.Parent:FindFirstChild("Humanoid")) then
+            else
+                v.Reflectance = 0
+            end
+        end
+    end
+ 
+    for _, v in pairs(lighting:GetChildren()) do
+        if v:IsA("BlurEffect") or v:IsA("SunRaysEffect") or v:IsA("ColorCorrectionEffect") or v:IsA("BloomEffect") or v:IsA("DepthOfFieldEffect") then
+            v.Enabled = false
+        end
+    end
+ 
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "Performance",
+        Text = "Full optimization applied!",
+        Duration = 5
+    })
+end)
+ 
+local folder3 = Main:AddFolder("Misc 3")
  
 local godModeToggle = false
         folder3:AddSwitch("God Mode (Brawl)", function(State)
@@ -1673,7 +1789,25 @@ local godModeToggle = false
             end
         end)
  
-local folder3 = Main:AddFolder("Misc 3")
+local folder4 = Main:AddFolder("Misc 4")
+ 
+folder4:AddSwitch("Unable Trade", function(State)
+            if State then
+                game:GetService("ReplicatedStorage").rEvents.tradingEvent:FireServer("disableTrading")
+            else
+                game:GetService("ReplicatedStorage").rEvents.tradingEvent:FireServer("enableTrading")
+            end
+        end)
+ 
+        folder4:AddSwitch("Hide Pets", function(State)
+            if State then
+                game:GetService("ReplicatedStorage").rEvents.showPetsEvent:FireServer("hidePets")
+            else
+                game:GetService("ReplicatedStorage").rEvents.showPetsEvent:FireServer("showPets")
+            end
+        end)
+ 
+local folder5 = Main:AddFolder("Misc 5")
  
 local switchGamepads = folder5:AddSwitch("Free Auto Lift Gamepass", function(Value)
             local gamepassFolder = game:GetService("ReplicatedStorage"):FindFirstChild("gamepassIds")
