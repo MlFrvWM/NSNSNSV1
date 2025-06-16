@@ -1645,7 +1645,7 @@ folder1:AddButton("Destroy Ad Teleport", function()
             end)
         end)
  
-local folder3 = Main:AddFolder("Misc 2")
+local folder2 = Main:AddFolder("Misc 2")
  
 local godModeToggle = false
         folder3:AddSwitch("God Mode (Brawl)", function(State)
@@ -1673,25 +1673,7 @@ local godModeToggle = false
             end
         end)
  
-local folder4 = Main:AddFolder("Misc 3")
- 
-folder4:AddSwitch("Unable Trade", function(State)
-            if State then
-                game:GetService("ReplicatedStorage").rEvents.tradingEvent:FireServer("disableTrading")
-            else
-                game:GetService("ReplicatedStorage").rEvents.tradingEvent:FireServer("enableTrading")
-            end
-        end)
- 
-        folder4:AddSwitch("Hide Pets", function(State)
-            if State then
-                game:GetService("ReplicatedStorage").rEvents.showPetsEvent:FireServer("hidePets")
-            else
-                game:GetService("ReplicatedStorage").rEvents.showPetsEvent:FireServer("showPets")
-            end
-        end)
- 
-local folder5 = Main:AddFolder("Misc 4")
+local folder3 = Main:AddFolder("Misc 3")
  
 local switchGamepads = folder5:AddSwitch("Free Auto Lift Gamepass", function(Value)
             local gamepassFolder = game:GetService("ReplicatedStorage"):FindFirstChild("gamepassIds")
@@ -1734,7 +1716,7 @@ folder5:AddSwitch("Auto Fortune Wheel", function(Value)
     end
 end)
  
-local Teleport = Teleport:AddFolder("Teleport")
+local Teleport = Misc:AddFolder("Teleport")
  
         Teleport:AddButton("Tiny Island", function()
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-31.8626194, 6.0588026, 2087.88672)
